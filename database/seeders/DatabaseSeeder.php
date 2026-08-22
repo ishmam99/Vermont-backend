@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             TrainingSeeder::class,
           
             DepartmentSeeder::class,
-            TrainingSessionSeeder::class,
+            // TrainingSessionSeeder::class,
             UserSeeder::class,
             // TrainingEnrollmentSeeder::class,
             CustomerSeeder::class ,
