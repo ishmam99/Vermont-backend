@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('amount_paid', 10, 2)->nullable();
             $table->foreignId('training_course_schedule_id')->nullable()->constrained('training_course_schedules')->cascadeOnDelete();
             $table->tinyInteger('status')->default(0);
-                 $table->string('receipt_url')->nullable()->after('transaction_id');
+                 $table->string('receipt_url')->nullable();
             $table->timestamps();
         });
     }
