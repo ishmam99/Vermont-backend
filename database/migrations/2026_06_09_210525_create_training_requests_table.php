@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             // Course Information
             $table->unsignedBigInteger('course_id')->nullable();
+                $table->string('receipt_url')->nullable()->after('course_id');
             $table->foreignId('training_course_schedule_id')->nullable()->constrained('training_course_schedules')->cascadeOnDelete();
             $table->string('course_name')->nullable();
             $table->string('course_code')->nullable();
