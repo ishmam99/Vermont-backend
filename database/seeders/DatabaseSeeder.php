@@ -17,33 +17,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Sales Director',
-        //     'email' => 'sales_director@mail.com',
-        //     'role' => 'sales-director',
-        // ]);
-        // User::factory()->create([
-        //     'name' => 'Sales Director',
-        //     'email' => 'sales_director@mail.com',
-        //     'role' => 'sales-director'
-        // ]);
-        // $this->call(ModuleSeeder::class);
-        // $this->call(LeedsFieldSeeder::class);
+        User::factory()->create([
+            'name' => 'Sales Director',
+            'email' => 'sales_director@mail.com',
+            'role' => 'sales-director',
+        ]);
+        User::factory()->create([
+            'name' => 'Sales Director',
+            'email' => 'sales_director@mail.com',
+            'role' => 'sales-director'
+        ]);
+        $this->call(ModuleSeeder::class);
+        $this->call(LeedsFieldSeeder::class);
 
-        // $this->call(SoftwareSeeder::class);
-        // $this->call(SolutionSeeder::class);
-        // $this->call(IndustrySeeder::class);
-        //    $this->call(SoftwareSkillSeeder::class);
+        $this->call(SoftwareSeeder::class);
+        $this->call(SolutionSeeder::class);
+        $this->call(IndustrySeeder::class);
+           $this->call(SoftwareSkillSeeder::class);
         $this->call([
-            // TrainingSeeder::class,
+            TrainingSeeder::class,
             UserSoftwareSkillSeeder::class,
             DepartmentSeeder::class,
-            // TrainingSessionSeeder::class,
-            // UserSeeder::class,
-            // TrainingEnrollmentSeeder::class,
-            // CustomerSeeder::class
+            TrainingSessionSeeder::class,
+            UserSeeder::class,
+            TrainingEnrollmentSeeder::class,
+            CustomerSeeder::class
         ]);
     }
 }
