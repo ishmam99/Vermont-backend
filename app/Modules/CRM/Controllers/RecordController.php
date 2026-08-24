@@ -142,7 +142,7 @@ public function index(Module $module)
     ]);
 
     // Sales / manager role restriction
-    $salesRoles = ['sales-manager', 'sales-executive', 'manager-cs', 'manager-sales', 'executive-cs', 'executive-sales'];
+    $salesRoles = ['sales-manager', 'sales-executive','marketing-manager', 'marketing-executive', 'manager-cs', 'manager-sales', 'executive-cs', 'executive-sales'];
     if (in_array(auth()->user()->role, $salesRoles)) {
 
         if ($module->name === 'Accounts') {
@@ -332,7 +332,7 @@ public function show(Module $module, $id)
         ->firstOrFail();
 
     if (in_array(auth()->user()->role, [
-        'sales-manager', 'sales-executive', 'manager-cs', 'manager-sales', 'executive-cs', 'executive-sales'
+        'sales-manager', 'sales-executive','marketing-manager', 'marketing-executive', 'manager-cs', 'manager-sales', 'executive-cs', 'executive-sales'
     ])) {
         try {
             logActivity('viewed', $module->name, $id);
@@ -379,7 +379,7 @@ public function store(Request $request, Module $module)
 
         DB::commit();
 
-    if (in_array(auth()->user()->role,  ['sales-manager', 'sales-executive','crm-manager','crm-executive'])) {
+    if (in_array(auth()->user()->role,  ['sales-manager', 'sales-executive','marketing-manager', 'marketing-executive', 'crm-manager','crm-executive'])) {
         logActivity(
             'created',
             $module->name,
@@ -469,7 +469,7 @@ public function convertModule($recordId)
             ['value' => $request->value]);
 
 
-             if (in_array(auth()->user()->role,  ['sales-manager', 'sales-executive','crm-manager','crm-executive'])) {
+             if (in_array(auth()->user()->role,  ['sales-manager','marketing-manager', 'marketing-executive', 'sales-executive','crm-manager','crm-executive'])) {
           logActivity(
                 'updated-field',
                 'record-value',
@@ -502,7 +502,7 @@ public function convertModule($recordId)
             'child_record_id' => $request->child_record_id,
             'relation_type' => $relation_type
         ]);
-         if (in_array(auth()->user()->role,  ['sales-manager', 'sales-executive','crm-manager','crm-executive'])) {
+         if (in_array(auth()->user()->role,  ['sales-manager', 'marketing-manager', 'marketing-executive','sales-executive','crm-manager','crm-executive'])) {
         logActivity(
             'added-child',
             $parent->module->name,
@@ -549,7 +549,7 @@ public function convertModule($recordId)
     ]);
 
     // Sales / manager role restriction
-    $salesRoles = ['sales-manager', 'sales-executive', 'manager-cs', 'manager-sales', 'executive-cs', 'executive-sales'];
+    $salesRoles = ['sales-manager', 'sales-executive', 'manager-cs','marketing-manager', 'marketing-executive', 'manager-sales', 'executive-cs', 'executive-sales'];
     if (in_array(auth()->user()->role, $salesRoles)) {
        $query->whereHas('relationsAsChild', function ($q) {
         $q->whereHas('parent.assignments', function ($q2) {
@@ -775,7 +775,7 @@ public function convertModule($recordId)
     public function destroy(Record $record)
     {
         $record->delete();
-          if (in_array(auth()->user()->role,  ['sales-manager', 'sales-executive','crm-manager','crm-executive'])) {
+          if (in_array(auth()->user()->role,  ['sales-manager','marketing-manager', 'marketing-executive', 'sales-executive','crm-manager','crm-executive'])) {
         logActivity('deleted', $record->module->name, $record->id);
     }
         return response()->json([
