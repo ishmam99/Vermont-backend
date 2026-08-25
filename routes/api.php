@@ -64,6 +64,12 @@ use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\OurStoryController;
 use App\Http\Controllers\LeadershipController;
 use App\Http\Controllers\MissionsValueController;
+use App\Http\Controllers\CompositeCapabilityController;
+use App\Http\Controllers\MaterialProcesseController;
+use App\Http\Controllers\ProcessCapabilityController;
+use App\Http\Controllers\TestingQualityController;
+use App\Http\Controllers\ManufacturingCapabilityController;
+use App\Http\Controllers\CapabilityFeatureController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -320,11 +326,17 @@ Route::prefix('v1')->group(function () {
         Route::get('training-course-schedules/monthly/calendar', [TrainingCourseScheduleController::class, 'getMonthlyCalendar']);
     });
     Route::apiResource('software-requests', SoftwareRequestController::class);
-    Route::apiResource('industries-serveds', IndustriesServedController::class);
+    Route::apiResource('industries-serves', IndustriesServedController::class);
     Route::apiResource('programs', ProgramController::class);
     Route::apiResource('our-stories', OurStoryController::class);
     Route::apiResource('leaderships', LeadershipController::class);
     Route::apiResource('missions-values', MissionsValueController::class);
+    Route::apiResource('composite-capabilities', CompositeCapabilityController::class);
+    Route::apiResource('material-processe', MaterialProcesseController::class);
+    Route::apiResource('process-capabilities', ProcessCapabilityController::class);
+    Route::apiResource('testing-qualities', TestingQualityController::class);
+    Route::apiResource('manufacturing-capabilities', ManufacturingCapabilityController::class);
+    Route::apiResource('capability-features', CapabilityFeatureController::class);
 
     // Additional custom routes
     Route::prefix('software-requests')->group(function () {
