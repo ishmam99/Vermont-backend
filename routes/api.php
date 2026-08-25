@@ -62,6 +62,8 @@ use App\Http\Controllers\TrainingRequestController;
 use App\Http\Controllers\IndustriesServedController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\OurStoryController;
+use App\Http\Controllers\LeadershipController;
+use App\Http\Controllers\MissionsValueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -321,6 +323,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('industries-serveds', IndustriesServedController::class);
     Route::apiResource('programs', ProgramController::class);
     Route::apiResource('our-stories', OurStoryController::class);
+    Route::apiResource('leaderships', LeadershipController::class);
+    Route::apiResource('missions-values', MissionsValueController::class);
 
     // Additional custom routes
     Route::prefix('software-requests')->group(function () {
