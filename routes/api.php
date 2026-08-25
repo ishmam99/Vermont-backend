@@ -59,6 +59,9 @@ use App\Http\Controllers\UserExperienceController;
 use App\Http\Controllers\UserResumeController;
 use App\Http\Controllers\UserSoftwareSkillController;
 use App\Http\Controllers\TrainingRequestController;
+use App\Http\Controllers\IndustriesServedController;
+use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\OurStoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -119,7 +122,8 @@ Route::prefix('v1')->group(function () {
             '/training-courses/by-company/{company}',
             [TrainingCourseController::class, 'getByCompany']
         );
-        Route::get('/training-courses/by-company/{company}',
+        Route::get(
+            '/training-courses/by-company/{company}',
             [TrainingCourseController::class, 'getByCompany']
         );
         Route::apiResource('trainer', TrainerController::class);
@@ -204,12 +208,12 @@ Route::prefix('v1')->group(function () {
 
     // In routes/api.php
 
-// Status update (generic)
-// Route::patch('/trainer-request-forms/{id}/status', [TrainerRequestFormController::class, 'statusUpdate']);
+    // Status update (generic)
+    // Route::patch('/trainer-request-forms/{id}/status', [TrainerRequestFormController::class, 'statusUpdate']);
 
-// Or use specific methods for better clarity
-Route::post('/trainer-request-form/{id}/approve', [TrainerRequestFormController::class, 'approve']);
-Route::post('/trainer-request-form/{id}/reject', [TrainerRequestFormController::class, 'reject']);
+    // Or use specific methods for better clarity
+    Route::post('/trainer-request-form/{id}/approve', [TrainerRequestFormController::class, 'approve']);
+    Route::post('/trainer-request-form/{id}/reject', [TrainerRequestFormController::class, 'reject']);
     Route::put('job/{id}/status', [JobController::class, 'changeStatus']);
     Route::apiResource('department', DepartmentController::class);
     Route::post('applied-jobs', [AppliedJobController::class, 'store']);
@@ -247,78 +251,80 @@ Route::post('/trainer-request-form/{id}/reject', [TrainerRequestFormController::
     Route::post('/send-email', [EndUserController::class, 'emailSend']);
     Route::apiResource('user-resumes', UserResumeController::class)->middleware('auth:sanctum');
     Route::prefix('training-requests')->group(function () {
-    // Public routes (no auth required for submission)
+        // Public routes (no auth required for submission)
 
 
-    // Admin routes (add auth middleware in production)
-    Route::middleware(['auth:sanctum'])->group(function () {
+        // Admin routes (add auth middleware in production)
+        Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/', [TrainingRequestController::class, 'store']);
-        Route::get('/', [TrainingRequestController::class, 'index']);
+            Route::get('/', [TrainingRequestController::class, 'index']);
 
-        Route::get('/dashboard', [TrainingRequestController::class, 'dashboard']);
-          Route::get('/stats', [TrainingRequestController::class, 'stats']);
-        Route::get('/reports', [TrainingRequestController::class, 'reports']);
-        Route::get('/software-list', [TrainingRequestController::class, 'getSoftwareList']);
-        Route::get('/export', [TrainingRequestController::class, 'export']);
-        Route::get('/{id}', [TrainingRequestController::class, 'show']);
-        Route::put('/{id}', [TrainingRequestController::class, 'update']);
-        Route::delete('/{id}', [TrainingRequestController::class, 'destroy']);
-        Route::post('/bulk-delete', [TrainingRequestController::class, 'bulkDelete']);
-        Route::post('/{id}/status', [TrainingRequestController::class, 'updateStatus']);
-        Route::post('/{id}/schedule', [TrainingRequestController::class, 'schedule']);
-        Route::post('/{id}/complete', [TrainingRequestController::class, 'complete']);
-        Route::post('/{id}/payment', [TrainingRequestController::class, 'recordPayment']);
-        Route::post('/{id}/certificate', [TrainingRequestController::class, 'issueCertificate']);
+            Route::get('/dashboard', [TrainingRequestController::class, 'dashboard']);
+            Route::get('/stats', [TrainingRequestController::class, 'stats']);
+            Route::get('/reports', [TrainingRequestController::class, 'reports']);
+            Route::get('/software-list', [TrainingRequestController::class, 'getSoftwareList']);
+            Route::get('/export', [TrainingRequestController::class, 'export']);
+            Route::get('/{id}', [TrainingRequestController::class, 'show']);
+            Route::put('/{id}', [TrainingRequestController::class, 'update']);
+            Route::delete('/{id}', [TrainingRequestController::class, 'destroy']);
+            Route::post('/bulk-delete', [TrainingRequestController::class, 'bulkDelete']);
+            Route::post('/{id}/status', [TrainingRequestController::class, 'updateStatus']);
+            Route::post('/{id}/schedule', [TrainingRequestController::class, 'schedule']);
+            Route::post('/{id}/complete', [TrainingRequestController::class, 'complete']);
+            Route::post('/{id}/payment', [TrainingRequestController::class, 'recordPayment']);
+            Route::post('/{id}/certificate', [TrainingRequestController::class, 'issueCertificate']);
+        });
     });
-});
     Route::apiResource('meeting-schedules', MeetingScheduleController::class)->middleware('auth:sanctum');
     Route::prefix('trainer-preferred-schedules')->group(function () {
-    Route::get('/', [TrainerPreferdScheduleController::class, 'index']);
-    Route::post('/', [TrainerPreferdScheduleController::class, 'store']);
-    Route::get('/{id}', [TrainerPreferdScheduleController::class, 'show']);
-    Route::put('/{id}', [TrainerPreferdScheduleController::class, 'update']);
-    Route::delete('/{id}', [TrainerPreferdScheduleController::class, 'destroy']);
-});
+        Route::get('/', [TrainerPreferdScheduleController::class, 'index']);
+        Route::post('/', [TrainerPreferdScheduleController::class, 'store']);
+        Route::get('/{id}', [TrainerPreferdScheduleController::class, 'show']);
+        Route::put('/{id}', [TrainerPreferdScheduleController::class, 'update']);
+        Route::delete('/{id}', [TrainerPreferdScheduleController::class, 'destroy']);
+    });
 
-// Trainer Skills Routes
-Route::prefix('trainer-skills')->middleware(['auth:sanctum'])->group(function () {
-    Route::get('/', [TrainerSkillController::class, 'index']);
-    Route::post('/', [TrainerSkillController::class, 'store']);
-    Route::get('/{id}', [TrainerSkillController::class, 'show']);
-    Route::put('/{id}', [TrainerSkillController::class, 'update']);
-    Route::delete('/{id}', [TrainerSkillController::class, 'destroy']);
-});
+    // Trainer Skills Routes
+    Route::prefix('trainer-skills')->middleware(['auth:sanctum'])->group(function () {
+        Route::get('/', [TrainerSkillController::class, 'index']);
+        Route::post('/', [TrainerSkillController::class, 'store']);
+        Route::get('/{id}', [TrainerSkillController::class, 'show']);
+        Route::put('/{id}', [TrainerSkillController::class, 'update']);
+        Route::delete('/{id}', [TrainerSkillController::class, 'destroy']);
+    });
 
 
-// Admin routes (protected with auth and admin middleware)
-Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
-    // Training Course Schedules
-    Route::apiResource('training-course-schedules', TrainingCourseScheduleController::class);
-    Route::post('training-course-schedules/bulk-delete', [TrainingCourseScheduleController::class, 'bulkDestroy']);
-    Route::patch('training-course-schedules/{id}/status', [TrainingCourseScheduleController::class, 'updateStatus']);
-    Route::get('training-course-schedules/trainer/{trainerId}', [TrainingCourseScheduleController::class, 'schedulesByTrainer']);
-    Route::get('training-course-schedules/calendar/events', [TrainingCourseScheduleController::class, 'calendar']);
-      Route::get('training-course-schedules/monthly/grouped', [TrainingCourseScheduleController::class, 'getSchedulesGroupedByMonth']);
-    Route::get('training-course-schedules/monthly/calendar', [TrainingCourseScheduleController::class, 'getMonthlyCalendar']);
-    Route::get('training-course-schedules/monthly/statistics', [TrainingCourseScheduleController::class, 'getMonthlyStatistics']);
-    Route::get('training-course-schedules/available-months', [TrainingCourseScheduleController::class, 'getAvailableMonths']);
-});
+    // Admin routes (protected with auth and admin middleware)
+    Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+        // Training Course Schedules
+        Route::apiResource('training-course-schedules', TrainingCourseScheduleController::class);
+        Route::post('training-course-schedules/bulk-delete', [TrainingCourseScheduleController::class, 'bulkDestroy']);
+        Route::patch('training-course-schedules/{id}/status', [TrainingCourseScheduleController::class, 'updateStatus']);
+        Route::get('training-course-schedules/trainer/{trainerId}', [TrainingCourseScheduleController::class, 'schedulesByTrainer']);
+        Route::get('training-course-schedules/calendar/events', [TrainingCourseScheduleController::class, 'calendar']);
+        Route::get('training-course-schedules/monthly/grouped', [TrainingCourseScheduleController::class, 'getSchedulesGroupedByMonth']);
+        Route::get('training-course-schedules/monthly/calendar', [TrainingCourseScheduleController::class, 'getMonthlyCalendar']);
+        Route::get('training-course-schedules/monthly/statistics', [TrainingCourseScheduleController::class, 'getMonthlyStatistics']);
+        Route::get('training-course-schedules/available-months', [TrainingCourseScheduleController::class, 'getAvailableMonths']);
+    });
 
-// Public routes (no authentication required or with optional auth)
-Route::prefix('public')->group(function () {
-    Route::get('training-course-schedules', [TrainingCourseScheduleController::class, 'publicIndex']);
-    Route::get('training-course-schedules/{id}', [TrainingCourseScheduleController::class, 'publicShow']);
-    Route::get('training-course-schedules/{id}/availability', [TrainingCourseScheduleController::class, 'checkAvailability']);
-    Route::get('courses/{courseId}/upcoming-schedules', [TrainingCourseScheduleController::class, 'upcomingSchedules']);
-     Route::get('training-course-schedules/monthly/available-courses', [TrainingCourseScheduleController::class, 'getAvailableCoursesByMonth']);
-    Route::get('training-course-schedules/monthly/calendar', [TrainingCourseScheduleController::class, 'getMonthlyCalendar']);
-});
-Route::apiResource('software-requests', SoftwareRequestController::class);
+    // Public routes (no authentication required or with optional auth)
+    Route::prefix('public')->group(function () {
+        Route::get('training-course-schedules', [TrainingCourseScheduleController::class, 'publicIndex']);
+        Route::get('training-course-schedules/{id}', [TrainingCourseScheduleController::class, 'publicShow']);
+        Route::get('training-course-schedules/{id}/availability', [TrainingCourseScheduleController::class, 'checkAvailability']);
+        Route::get('courses/{courseId}/upcoming-schedules', [TrainingCourseScheduleController::class, 'upcomingSchedules']);
+        Route::get('training-course-schedules/monthly/available-courses', [TrainingCourseScheduleController::class, 'getAvailableCoursesByMonth']);
+        Route::get('training-course-schedules/monthly/calendar', [TrainingCourseScheduleController::class, 'getMonthlyCalendar']);
+    });
+    Route::apiResource('software-requests', SoftwareRequestController::class);
+    Route::apiResource('industries-serveds', IndustriesServedController::class);
+    Route::apiResource('programs', ProgramController::class);
+    Route::apiResource('our-stories', OurStoryController::class);
 
-// Additional custom routes
-Route::prefix('software-requests')->group(function () {
-    Route::put('{id}/status', [SoftwareRequestController::class, 'updateStatus']);
-    Route::put('{id}/conversion-status', [SoftwareRequestController::class, 'updateConversionStatus']);
-});
-
+    // Additional custom routes
+    Route::prefix('software-requests')->group(function () {
+        Route::put('{id}/status', [SoftwareRequestController::class, 'updateStatus']);
+        Route::put('{id}/conversion-status', [SoftwareRequestController::class, 'updateConversionStatus']);
+    });
 });
