@@ -41,6 +41,8 @@ class ModuleFieldController extends Controller
             }),
         ],
             'type' => 'required|string|in:text,select,date,number,checkbox',
+             'options' => 'sometimes|array|min:1',
+        'options.*' => 'string',
             'required' => 'nullable',
             'unique' => 'nullable',
         ]);
